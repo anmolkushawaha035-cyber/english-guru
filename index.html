@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<meta name="theme-color" content="#2457d6">
+<title>English Guru</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<meta name="mobile-web-app-capable" content="yes">
+<style>
+:root{--blue:#2457d6;--blue2:#eaf0ff;--ink:#17233b;--muted:#64708a;--bg:#f5f7fc;--white:#fff;--green:#16845b;--red:#c43d4b}
+*{box-sizing:border-box}body{margin:0;font-family:system-ui,-apple-system,"Noto Sans Devanagari",sans-serif;background:var(--bg);color:var(--ink)}
+header{background:linear-gradient(135deg,#2457d6,#6b58dc);color:white;padding:22px 18px 26px;border-radius:0 0 25px 25px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px}.logo{font-weight:850;font-size:23px}.tag{font-size:12px;opacity:.9}
+header h1{font-size:25px;margin:20px 0 6px}header p{margin:0;opacity:.9;font-size:14px}
+main{max-width:760px;margin:auto;padding:16px 14px 90px}.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:-4px}
+.stat,.card{background:white;border-radius:17px;padding:15px;box-shadow:0 5px 20px #152b5b0b;border:1px solid #edf0f8}
+.stat strong{display:block;font-size:21px;color:var(--blue)}.stat span{font-size:12px;color:var(--muted)}
+.section-title{display:flex;align-items:center;justify-content:space-between;margin:24px 2px 12px}.section-title h2{font-size:18px;margin:0}.small{font-size:12px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:11px}.tile{border:0;text-align:left;background:white;border-radius:17px;padding:16px;box-shadow:0 5px 20px #152b5b0b;min-height:116px;color:var(--ink);cursor:pointer;border:1px solid #edf0f8}
+.tile .emoji{font-size:26px}.tile b{display:block;margin:8px 0 4px;font-size:15px}.tile span{font-size:12px;color:var(--muted)}
+button,input,select{font:inherit}.btn{border:0;border-radius:12px;padding:12px 15px;background:var(--blue);color:white;font-weight:700;cursor:pointer}.btn.secondary{background:var(--blue2);color:var(--blue)}.btn.full{width:100%}.btn:disabled{opacity:.5}
+.view{display:none}.view.active{display:block}.back{background:none;border:0;color:var(--blue);font-weight:750;padding:8px 0;margin-bottom:8px;cursor:pointer}
+.lesson{padding:18px;border-radius:16px;background:#f0f4ff;margin:10px 0}.en{font-size:22px;font-weight:800;color:#204fc1}.hi{font-size:17px;margin-top:8px}.pron{font-size:13px;color:var(--muted);margin-top:5px}
+.list{display:grid;gap:10px}.item{padding:14px;background:white;border:1px solid #edf0f8;border-radius:14px}.item b{display:block}.item p{margin:5px 0 0;color:var(--muted);font-size:14px}
+.pill{display:inline-block;background:#e9f7f0;color:#13764f;border-radius:99px;padding:4px 9px;font-size:11px;font-weight:700}
+.progress{height:8px;background:#e8ecf5;border-radius:99px;overflow:hidden;margin:10px 0}.progress div{height:100%;background:#20a775;width:0}
+.options{display:grid;gap:9px;margin:15px 0}.option{background:white;border:1px solid #dfe5f1;border-radius:12px;padding:12px;text-align:left;cursor:pointer}.option.selected{border-color:var(--blue);background:var(--blue2)}.option.correct{border-color:var(--green);background:#eaf8f1}.option.wrong{border-color:var(--red);background:#fff0f1}
+input[type=text],select{width:100%;padding:12px;border:1px solid #dfe5f1;border-radius:12px;background:white;margin:6px 0 12px}
+nav{position:fixed;bottom:0;left:0;right:0;background:#ffffffed;backdrop-filter:blur(10px);border-top:1px solid #e7ebf3;display:flex;justify-content:center;gap:4px;padding:8px max(8px,calc((100vw - 740px)/2)) calc(8px + env(safe-area-inset-bottom));z-index:5}
+nav button{flex:1;max-width:150px;background:none;border:0;padding:8px 2px;color:var(--muted);font-size:11px;cursor:pointer;border-radius:10px}nav button.active{background:var(--blue2);color:var(--blue);font-weight:800}nav .ico{display:block;font-size:19px;margin-bottom:2px}
+.notice{font-size:12px;color:var(--muted);line-height:1.5;margin-top:18px}
+@media(min-width:600px){header{padding-left:max(22px,calc((100vw - 730px)/2));padding-right:max(22px,calc((100vw - 730px)/2))}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+button{touch-action:manipulation;-webkit-tap-highlight-color:transparent}
+.btn,.option,nav button,.back{min-height:48px}
+.small,.tile span,.stat span{font-size:13px}
+:focus-visible{outline:3px solid #f59e0b;outline-offset:2px}
+header{padding-top:calc(22px + env(safe-area-inset-top))}
+</style>
+</head>
+<body>
+<header>
+  <div class="top"><div><div class="logo">📘 English Guru</div><div class="tag">Learn a little every day</div></div><div>🇮🇳 हिन्दी + English</div></div>
+  <h1>आज कुछ नया सीखें, <span id="greetName">Anmol</span>!</h1>
+  <p>आसान अंग्रेज़ी, हिंदी अर्थ और रोज़ अभ्यास।</p>
+</header>
+<main>
+  <section id="home" class="view active">
+    <div class="stats">
+      <div class="stat"><strong id="statLearned">0</strong><span>सीखे वाक्य</span></div>
+      <div class="stat"><strong id="statQuiz">0</strong><span>सबसे अच्छा स्कोर</span></div>
+      <div class="stat"><strong id="statDays">1</strong><span>अभ्यास दिन*</span></div>
+    </div>
+    <div class="section-title"><h2>क्या सीखना चाहोगे?</h2><span class="small">अपना रास्ता चुनो</span></div>
+    <div class="grid">
+      <button class="tile" onclick="showView('sentences')"><div class="emoji">🗣️</div><b>Daily Sentences</b><span>रोज़ के वाक्य और अर्थ</span></button>
+      <button class="tile" onclick="showView('grammar')"><div class="emoji">📚</div><b>Grammar & Tense</b><span>बुनियादी व्याकरण</span></button>
+      <button class="tile" onclick="showView('quiz')"><div class="emoji">📝</div><b>Quiz Practice</b><span>जवाब दो, अंक पाओ</span></button>
+      <button class="tile" onclick="showView('saved')"><div class="emoji">⭐</div><b>मेरे Saved वाक्य</b><span>पसंदीदा वाक्य दोबारा पढ़ो</span></button>
+    </div>
+    <div class="section-title"><h2>आज का वाक्य</h2><span class="pill">शुरुआती स्तर</span></div>
+    <div class="card"><div class="en">I am learning English.</div><div class="hi">मैं अंग्रेज़ी सीख रहा/रही हूँ।</div><div class="pron">उच्चारण: आइ ऐम लर्निंग इंग्लिश</div><button id="homeSave" class="btn secondary" style="margin-top:13px" onclick="saveSentence(4)">☆ वाक्य सेव करें</button></div>
+    <p class="notice">*यह शुरुआती डेमो ऐप है। आपकी प्रगति इसी ब्राउज़र में सेव होती है। इसे ऑनलाइन अकाउंट से सिंक नहीं किया जाता।</p>
+  </section>
+
+  <section id="sentences" class="view">
+    <button class="back" onclick="showView('home')">← होम पर वापस</button>
+    <div class="section-title"><h2>Daily English Sentences</h2></div>
+    <p class="small">वाक्य पढ़ो, हिंदी अर्थ समझो और चाहो तो सेव करो।</p>
+    <div id="sentenceList" class="list"></div>
+  </section>
+
+  <section id="grammar" class="view">
+    <button class="back" onclick="showView('home')">← होम पर वापस</button>
+    <div class="section-title"><h2>Grammar की शुरुआत</h2></div>
+    <div class="list">
+      <div class="item"><span class="pill">Lesson 1</span><b style="margin-top:8px">Pronoun — सर्वनाम</b><p>I = मैं · You = तुम/आप · He = वह (लड़का) · She = वह (लड़की) · We = हम · They = वे</p><button class="btn secondary" style="margin-top:8px" onclick="say('I, you, he, she, we, they')">🔊 अंग्रेज़ी सुनें</button></div>
+      <div class="item"><span class="pill">Lesson 2</span><b style="margin-top:8px">Am / Is / Are</b><p>I am happy. = मैं खुश हूँ।<br>He is a student. = वह विद्यार्थी है।<br>They are ready. = वे तैयार हैं।</p><button class="btn secondary" style="margin-top:8px" onclick="say('I am happy. He is a student. They are ready.')">🔊 अंग्रेज़ी सुनें</button></div>
+      <div class="item"><span class="pill">Lesson 3</span><b style="margin-top:8px">Simple Present Tense</b><p>आदत या रोज़ होने वाले काम के लिए।<br>I study every day. = मैं हर दिन पढ़ता/पढ़ती हूँ।<br>She plays tennis. = वह टेनिस खेलती है।</p><button class="btn secondary" style="margin-top:8px" onclick="say('I study every day. She plays tennis.')">🔊 अंग्रेज़ी सुनें</button></div>
+      <div class="item"><span class="pill">Lesson 4</span><b style="margin-top:8px">Present Continuous Tense</b><p>अभी चल रहे काम के लिए।<br>I am reading. = मैं पढ़ रहा/रही हूँ।<br>They are playing. = वे खेल रहे हैं।</p><button class="btn secondary" style="margin-top:8px" onclick="say('I am reading. They are playing.')">🔊 अंग्रेज़ी सुनें</button></div>
+      <div class="item"><span class="pill">Lesson 5</span><b style="margin-top:8px">Sentence Pattern</b><p>Subject + Verb + Object<br>I read a book. = मैं एक किताब पढ़ता/पढ़ती हूँ।</p><button class="btn secondary" style="margin-top:8px" onclick="say('I read a book.')">🔊 अंग्रेज़ी सुनें</button></div>
+    </div>
+  </section>
+
+  <section id="quiz" class="view">
+    <button class="back" onclick="showView('home')">← होम पर वापस</button>
+    <div class="section-title"><h2>छोटा English Quiz</h2><span class="small" id="quizCounter">1 / 5</span></div>
+    <div class="progress"><div id="quizProgress"></div></div>
+    <div class="card">
+      <div class="small">सही हिंदी अर्थ चुनो:</div>
+      <button class="btn secondary" onclick="sayQ()">🔊 सवाल सुनें</button><h3 id="quizQuestion">I am a student.</h3>
+      <div id="quizOptions" class="options"></div>
+      <div id="quizFeedback" aria-live="polite"></div>
+      <button id="quizNext" class="btn full" onclick="nextQuestion()" disabled>अगला सवाल →</button>
+    </div>
+  </section>
+
+  <section id="saved" class="view">
+    <button class="back" onclick="showView('home')">← होम पर वापस</button>
+    <div class="section-title"><h2>मेरे Saved वाक्य ⭐</h2></div>
+    <div id="savedList" class="list"></div>
+  </section>
+
+  <section id="profile" class="view">
+    <button class="back" onclick="showView('home')">← होम पर वापस</button>
+    <div class="section-title"><h2>मेरी पढ़ाई</h2></div>
+    <div class="card">
+      <label for="studentName">तुम्हारा नाम</label><input id="studentName" type="text" maxlength="30" placeholder="अपना नाम लिखो">
+      <button class="btn full" onclick="saveName()">नाम सेव करें</button>
+      <div class="section-title"><h2>मेरी प्रगति</h2></div>
+      <p>सीखे हुए वाक्य: <b id="progressLearned">0</b></p>
+      <p>Quiz का सबसे अच्छा स्कोर: <b id="progressScore">0</b></p>
+      <div class="progress"><div id="overallProgress"></div></div>
+      <button class="btn secondary full" onclick="resetProgress()">प्रगति रीसेट करें</button>
+    </div>
+    <p class="notice">यह ऐप अभी डेमो है। यह पासवर्ड या निजी जानकारी नहीं माँगता। रीसेट करने पर सेव की गई प्रगति हट जाएगी।</p>
+  </section>
+</main>
+<nav>
+  <button class="active" data-view="home" onclick="showView('home')"><span class="ico">🏠</span>होम</button>
+  <button data-view="sentences" onclick="showView('sentences')"><span class="ico">🗣️</span>वाक्य</button>
+  <button data-view="grammar" onclick="showView('grammar')"><span class="ico">📚</span>Grammar</button>
+  <button data-view="quiz" onclick="showView('quiz')"><span class="ico">📝</span>Quiz</button>
+  <button data-view="profile" onclick="showView('profile')"><span class="ico">👤</span>प्रगति</button>
+</nav>
+<script>
+const sentences = [
+ {en:"Hello!",hi:"नमस्ते!",pron:"हेलो"},
+ {en:"How are you?",hi:"तुम कैसे हो? / आप कैसे हैं?",pron:"हाउ आर यू"},
+ {en:"My name is Anmol.",hi:"मेरा नाम अनमोल है।",pron:"माय नेम इज़ अनमोल"},
+ {en:"I am a student.",hi:"मैं एक विद्यार्थी हूँ।",pron:"आइ ऐम अ स्टूडेंट"},
+ {en:"I am learning English.",hi:"मैं अंग्रेज़ी सीख रहा/रही हूँ।",pron:"आइ ऐम लर्निंग इंग्लिश"},
+ {en:"Please help me.",hi:"कृपया मेरी मदद कीजिए।",pron:"प्लीज़ हेल्प मी"},
+ {en:"I do not understand.",hi:"मुझे समझ नहीं आया।",pron:"आइ डू नॉट अंडरस्टैंड"},
+ {en:"Can you repeat that?",hi:"क्या आप इसे दोहरा सकते हैं?",pron:"कैन यू रिपीट दैट"},
+ {en:"Thank you very much.",hi:"आपका बहुत-बहुत धन्यवाद।",pron:"थैंक यू वेरी मच"},
+ {en:"I study every day.",hi:"मैं हर दिन पढ़ता/पढ़ती हूँ।",pron:"आइ स्टडी एवरी डे"},
+ {en:"I am ready.",hi:"मैं तैयार हूँ।",pron:"आइ ऐम रेडी"},
+ {en:"See you tomorrow.",hi:"कल मिलते हैं।",pron:"सी यू टुमॉरो"},
+  {en:"Where do you live?",hi:"आप कहाँ रहते हैं?",pron:"वेयर डू यू लिव"},
+  {en:"I live in India.",hi:"मैं भारत में रहता/रहती हूँ।",pron:"आइ लिव इन इंडिया"},
+  {en:"What is your name?",hi:"आपका नाम क्या है?",pron:"व्हाट इज़ योर नेम"},
+  {en:"My name is Ravi.",hi:"मेरा नाम रवि है।",pron:"माइ नेम इज़ रवि"},
+  {en:"Please help me.",hi:"कृपया मेरी मदद कीजिए।",pron:"प्लीज़ हेल्प मी"},
+  {en:"I am hungry.",hi:"मुझे भूख लगी है।",pron:"आइ ऐम हंग्री"},
+  {en:"I am thirsty.",hi:"मुझे प्यास लगी है।",pron:"आइ ऐम थर्स्टी"},
+  {en:"Can I have some water?",hi:"क्या मुझे थोड़ा पानी मिल सकता है?",pron:"कैन आइ हैव सम वॉटर"},
+  {en:"How much is this?",hi:"यह कितने का है?",pron:"हाउ मच इज़ दिस"},
+  {en:"It is too expensive.",hi:"यह बहुत महँगा है।",pron:"इट इज़ टू एक्सपेंसिव"},
+  {en:"What time is it?",hi:"क्या समय हुआ है?",pron:"व्हाट टाइम इज़ इट"},
+  {en:"I am late.",hi:"मुझे देर हो गई है।",pron:"आइ ऐम लेट"},
+  {en:"Wait for me.",hi:"मेरा इंतज़ार कीजिए।",pron:"वेट फॉर मी"},
+  {en:"Come here.",hi:"यहाँ आइए।",pron:"कम हियर"},
+  {en:"Go there.",hi:"वहाँ जाइए।",pron:"गो देयर"},
+  {en:"I like this.",hi:"मुझे यह पसंद है।",pron:"आइ लाइक दिस"},
+  {en:"I do not like it.",hi:"मुझे यह पसंद नहीं है।",pron:"आइ डू नॉट लाइक इट"},
+  {en:"I want to learn English.",hi:"मैं अंग्रेज़ी सीखना चाहता/चाहती हूँ।",pron:"आइ वॉन्ट टू लर्न इंग्लिश"},
+  {en:"Speak slowly, please.",hi:"कृपया धीरे बोलिए।",pron:"स्पीक स्लोली प्लीज़"},
+  {en:"What does this mean?",hi:"इसका क्या मतलब है?",pron:"व्हाट डज़ दिस मीन"},
+  {en:"I have a question.",hi:"मेरा एक सवाल है।",pron:"आइ हैव अ क्वेश्चन"},
+  {en:"Open the door.",hi:"दरवाज़ा खोलिए।",pron:"ओपन द डोर"},
+  {en:"Close the window.",hi:"खिड़की बंद कीजिए।",pron:"क्लोज़ द विंडो"},
+  {en:"I am going to school.",hi:"मैं स्कूल जा रहा/रही हूँ।",pron:"आइ ऐम गोइंग टू स्कूल"},
+  {en:"She is my sister.",hi:"वह मेरी बहन है।",pron:"शी इज़ माइ सिस्टर"},
+  {en:"He is my brother.",hi:"वह मेरा भाई है।",pron:"ही इज़ माइ ब्रदर"},
+  {en:"Have a nice day.",hi:"आपका दिन शुभ हो।",pron:"हैव अ नाइस डे"},
+  {en:"Good luck!",hi:"शुभकामनाएँ!",pron:"गुड लक"},
+  {en:"Happy birthday!",hi:"जन्मदिन मुबारक!",pron:"हैप्पी बर्थडे"},
+  {en:"I miss you.",hi:"मुझे आपकी याद आती है।",pron:"आइ मिस यू"},
+  {en:"Take care.",hi:"अपना ध्यान रखिए।",pron:"टेक केयर"}
+];
+const questions = [
+ {q:"I am a student.",opts:["मैं एक विद्यार्थी हूँ।","मैं घर जा रहा हूँ।","वह मेरा दोस्त है।"],a:0},
+ {q:"Thank you.",opts:["माफ़ कीजिए","धन्यवाद","शुभ रात्रि"],a:1},
+ {q:"How are you?",opts:["तुम कहाँ हो?","तुम्हारा नाम क्या है?","तुम कैसे हो?"],a:2},
+ {q:"I am learning English.",opts:["मैं अंग्रेज़ी सीख रहा/रही हूँ।","मैं खाना खा रहा/रही हूँ।","मैं सो रहा/रही हूँ।"],a:0},
+ {q:"See you tomorrow.",opts:["फिर कभी नहीं","कल मिलते हैं","अभी आओ"],a:1},
+  {q:"Where do you live?",opts:["आप कहाँ रहते हैं?", "आप कौन हैं?", "आप क्या करते हैं?"],a:0},
+  {q:"I am hungry.",opts:["मुझे नींद आई है।", "मुझे भूख लगी है।", "मुझे प्यास लगी है।"],a:1},
+  {q:"Please help me.",opts:["कृपया मेरी मदद कीजिए।", "कृपया यहाँ आइए।", "कृपया बैठिए।"],a:0},
+  {q:"How much is this?",opts:["यह क्या है?", "यह कहाँ है?", "यह कितने का है?"],a:2},
+  {q:"I am late.",opts:["मुझे देर हो गई है।", "मैं तैयार हूँ।", "मैं घर पर हूँ।"],a:0},
+  {q:"Speak slowly, please.",opts:["ज़ोर से बोलिए।", "कृपया धीरे बोलिए।", "चुप रहिए।"],a:1},
+  {q:"Close the window.",opts:["दरवाज़ा खोलिए।", "खिड़की खोलिए।", "खिड़की बंद कीजिए।"],a:2},
+  {q:"She is my sister.",opts:["वह मेरी बहन है।", "वह मेरी माँ है।", "वह मेरी दोस्त है।"],a:0},
+  {q:"Have a nice day.",opts:["आपका दिन शुभ हो।", "आपकी रात शुभ हो।", "आप कैसे हैं?"],a:0},
+  {q:"I like this.",opts:["मुझे यह पसंद नहीं है।", "मुझे यह पसंद है।", "यह मेरा नहीं है।"],a:1},
+  {q:"What does this mean?",opts:["यह कहाँ है?", "यह कौन है?", "इसका क्या मतलब है?"],a:2},
+  {q:"Wait for me.",opts:["मेरा इंतज़ार कीजिए।", "मुझे भूल जाइए।", "मेरे साथ चलिए।"],a:0},
+  {q:"I want to learn English.",opts:["मैं सोना चाहता हूँ।", "मैं अंग्रेज़ी सीखना चाहता हूँ।", "मैं खाना चाहता हूँ।"],a:1},
+  {q:"Take care.",opts:["अपना ध्यान रखिए।", "अंदर आइए।", "यहाँ आइए।"],a:0},
+  {q:"Good luck!",opts:["धन्यवाद!", "माफ़ कीजिए!", "शुभकामनाएँ!"],a:2}
+];
+function toast(m){try{var t=document.getElementById("toastBox");if(!t){t=document.createElement("div");t.id="toastBox";t.style.cssText="position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#17233b;color:#fff;padding:12px 18px;border-radius:14px;z-index:99;max-width:85%;text-align:center;font-size:14px";document.body.appendChild(t)}t.textContent=m;t.style.display="block";clearTimeout(t._h);t._h=setTimeout(function(){t.style.display="none"},2500)}catch(e){}}
+function safeConfirm(m){try{return confirm(m)}catch(e){return true}}
+let state = loadState(), qIndex=0, selected=-1, answered=false;
+state.lastQuiz=0;{const today=new Date().toDateString();if(state.lastDate!==today){if(state.lastDate)state.days++;state.lastDate=today}}
+function loadState(){try{return Object.assign({learned:[],saved:[],score:0,name:"",days:1},JSON.parse(localStorage.getItem("englishGuruState")||"{}"))}catch(e){return {learned:[],saved:[],score:0,name:"",days:1}}}
+function persist(){try{localStorage.setItem("englishGuruState",JSON.stringify(state))}catch(e){}updateStats()}
+function showView(id,fromPop){const cur=document.querySelector(".view.active");if(id==="home"&&!fromPop&&history.state&&history.state.v&&history.state.v!=="home"){try{history.back();return}catch(e){}}if(id==="quiz"&&cur&&cur.id!=="quiz"){qIndex=0;state.lastQuiz=0}if(!fromPop&&cur&&cur.id!==id){try{history.pushState({v:id},"")}catch(e){}}document.querySelectorAll(".view").forEach(v=>v.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.view===id));if(id==="sentences")renderSentences();if(id==="saved")renderSaved();if(id==="quiz")renderQuestion();if(id==="profile")renderProfile();window.scrollTo(0,0)}
+function refreshExtras(){const b=document.getElementById("homeSave");if(b)b.textContent=state.saved.includes(4)?"★ सेव है":"☆ वाक्य सेव करें";const g=document.getElementById("greetName");if(g)g.textContent=state.name||"Anmol"}
+function updateStats(){refreshExtras();document.getElementById("statLearned").textContent=state.learned.length;document.getElementById("statQuiz").textContent=state.score;document.getElementById("statDays").textContent=state.days;document.getElementById("progressLearned").textContent=state.learned.length;document.getElementById("progressScore").textContent=state.score;document.getElementById("overallProgress").style.width=Math.min(100,Math.round((state.learned.length/sentences.length)*100))+"%"}
+function renderSentences(){const root=document.getElementById("sentenceList");root.innerHTML="";sentences.forEach((s,i)=>{const d=document.createElement("div");d.className="item";d.innerHTML=`<div class="en">${s.en}</div><div class="hi">${s.hi}</div><div class="pron">उच्चारण: ${s.pron}</div><div style="display:flex;gap:8px;margin-top:12px;flex-wrap:wrap"><button class="btn" onclick="markLearned(${i})">सीख लिया ✓</button><button class="btn secondary" onclick="saveSentence(${i})">${state.saved.includes(i)?"★ सेव है":"☆ सेव करें"}</button><button class="btn secondary" onclick="speak(${i})">🔊 सुनें</button></div>`;root.appendChild(d)})}
+function markLearned(i){if(!state.learned.includes(i))state.learned.push(i);persist();renderSentences()}
+function saveSentence(i){if(!state.saved.includes(i))state.saved.push(i);else state.saved=state.saved.filter(n=>n!==i);persist();renderSentences();renderSaved()}
+function renderSaved(){const root=document.getElementById("savedList");root.innerHTML="";if(!state.saved.length){root.innerHTML='<div class="item">अभी कोई वाक्य सेव नहीं है। वाक्य वाले पेज पर जाकर ☆ सेव करें दबाओ।</div>';return}state.saved.forEach(i=>{const s=sentences[i],d=document.createElement("div");d.className="item";d.innerHTML=`<div class="en">${s.en}</div><div class="hi">${s.hi}</div><button class="btn secondary" style="margin-top:10px" onclick="saveSentence(${i})">सेव हटाएँ</button>`;root.appendChild(d)})}
+function say(t){try{if("speechSynthesis"in window){speechSynthesis.cancel();var u=new SpeechSynthesisUtterance(t);u.lang="en-IN";u.rate=0.85;speechSynthesis.speak(u)}else toast("इस फ़ोन में आवाज़ की सुविधा नहीं है।")}catch(e){toast("आवाज़ नहीं चल पाई।")}}
+function sayQ(){if(qIndex<questions.length)say(questions[qIndex].q)}
+function speak(i){if("speechSynthesis"in window){speechSynthesis.cancel();const u=new SpeechSynthesisUtterance(sentences[i].en);u.lang="en-IN";u.rate=0.85;speechSynthesis.speak(u)}else toast("इस ब्राउज़र में आवाज़ की सुविधा उपलब्ध नहीं है।")}
+function renderQuestion(){if(qIndex>=questions.length){document.getElementById("quizQuestion").textContent="Quiz पूरा हुआ! 🎉";document.getElementById("quizOptions").innerHTML=`तुम्हारा स्कोर: ${state.lastQuiz||0} / ${questions.length}`;document.getElementById("quizFeedback").textContent="बहुत अच्छा! दोबारा अभ्यास करने के लिए फिर से शुरू करो।";document.getElementById("quizNext").textContent="फिर से शुरू करें";document.getElementById("quizNext").disabled=false;document.getElementById("quizNext").onclick=restartQuiz;document.getElementById("quizCounter").textContent="पूरा";document.getElementById("quizProgress").style.width="100%";return}
+answered=false;selected=-1;const q=questions[qIndex];document.getElementById("quizCounter").textContent=(qIndex+1)+" / "+questions.length;document.getElementById("quizProgress").style.width=(qIndex/questions.length*100)+"%";document.getElementById("quizQuestion").textContent=q.q;document.getElementById("quizFeedback").textContent="";document.getElementById("quizNext").textContent="अगला सवाल →";document.getElementById("quizNext").onclick=nextQuestion;document.getElementById("quizNext").disabled=true;const root=document.getElementById("quizOptions");root.innerHTML="";q.opts.forEach((o,i)=>{const b=document.createElement("button");b.className="option";b.textContent=o;b.onclick=()=>chooseOption(i);root.appendChild(b)})}
+function chooseOption(i){if(answered)return;selected=i;answered=true;const q=questions[qIndex];document.querySelectorAll(".option").forEach((b,n)=>{if(n===q.a)b.classList.add("correct");if(n===i&&i!==q.a)b.classList.add("wrong")});if(i===q.a){state.lastQuiz=(state.lastQuiz||0)+1;state.score=Math.max(state.score,state.lastQuiz);document.getElementById("quizFeedback").textContent="सही जवाब! शाबाश 🎉"}else document.getElementById("quizFeedback").textContent="कोई बात नहीं। सही जवाब: "+q.opts[q.a];persist();document.getElementById("quizNext").disabled=false}
+function nextQuestion(){if(qIndex>=questions.length){restartQuiz();return}if(!answered)return;qIndex++;renderQuestion()}
+function restartQuiz(){qIndex=0;state.lastQuiz=0;renderQuestion();persist()}
+function saveName(){state.name=document.getElementById("studentName").value.trim().slice(0,30);persist();toast(state.name?"नाम सेव हो गया!":"नाम खाली है; चाहो तो अपना नाम लिख सकते हो।")}
+function renderProfile(){document.getElementById("studentName").value=state.name||"";updateStats()}
+function resetProgress(){if(safeConfirm("क्या तुम सेव की गई प्रगति और पसंदीदा वाक्य हटाना चाहते हो?")){state={learned:[],saved:[],score:0,name:"",days:1};qIndex=0;persist();renderProfile();renderSentences();renderSaved();renderQuestion();toast("प्रगति रीसेट हो गई।")}}
+try{history.replaceState({v:"home"},"")}catch(e){}window.addEventListener("popstate",e=>showView((e.state&&e.state.v)||"home",true));
+persist();renderSentences();renderQuestion();
+if("serviceWorker"in navigator&&location.protocol.indexOf("http")===0)navigator.serviceWorker.register("sw.js").catch(function(){});
+</script>
+</body>
+</html>
